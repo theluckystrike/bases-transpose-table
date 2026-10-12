@@ -1,0 +1,120 @@
+filters:
+  and:
+    - file.inFolder("Bases Transpose Table/Notes")
+formulas:
+  total: cost * 2
+properties:
+  note.cost:
+    displayName: Cost
+  note.status:
+    displayName: Status
+  note.done:
+    displayName: Done
+  note.team:
+    displayName: Team
+  note.deadline:
+    displayName: Deadline
+  note.tags:
+    displayName: Tags
+  note.details:
+    displayName: Details
+  formula.total:
+    displayName: Total formula
+  file.size:
+    displayName: File size
+  note.missing:
+    displayName: Missing value
+views:
+  - type: bases-transpose-table
+    name: Compare
+    filters:
+      and:
+        - pick == true
+    order:
+      - note.cost
+      - note.status
+      - note.done
+      - note.team
+      - note.deadline
+      - note.tags
+      - note.details
+      - formula.total
+      - file.size
+      - note.missing
+    sort:
+      - property: file.name
+        direction: ASC
+  - type: bases-transpose-table
+    name: Six notes
+    order:
+      - note.cost
+      - note.status
+      - note.done
+      - note.team
+      - note.deadline
+      - note.tags
+      - note.details
+      - formula.total
+      - file.size
+      - note.missing
+    sort:
+      - property: file.name
+        direction: ASC
+  - type: bases-transpose-table
+    name: Empty
+    filters:
+      and:
+        - file.name == "No such project"
+    order:
+      - note.cost
+      - note.status
+      - note.done
+      - note.team
+      - note.deadline
+      - note.tags
+      - note.details
+      - formula.total
+      - file.size
+      - note.missing
+    sort:
+      - property: file.name
+        direction: ASC
+  - type: bases-transpose-table
+    name: Marked
+    filters:
+      and:
+        - pick == true
+    transposeMarks: true
+    order:
+      - note.cost
+      - note.status
+      - note.done
+      - note.team
+      - note.deadline
+      - note.tags
+      - note.details
+      - formula.total
+      - file.size
+      - note.missing
+    sort:
+      - property: file.name
+        direction: ASC
+  - type: bases-transpose-table
+    name: Grouped
+    groupBy:
+      property: note.team
+      direction: ASC
+    order:
+      - note.cost
+      - note.status
+      - note.done
+      - note.team
+      - note.deadline
+      - note.tags
+      - note.details
+      - formula.total
+      - file.size
+      - note.missing
+    sort:
+      - property: file.name
+        direction: ASC

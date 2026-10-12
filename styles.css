@@ -1,0 +1,101 @@
+.bases-transpose-table {
+	padding: 16px;
+	color: var(--text-normal);
+}
+
+.btt-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+	margin-bottom: 16px;
+}
+
+.btt-title {
+	font-weight: var(--font-semibold);
+	margin-right: auto;
+}
+
+.btt-pro-note, .btt-help, .btt-group {
+	color: var(--text-muted);
+	font-size: var(--font-ui-small);
+}
+
+.btt-limit {
+	background: var(--background-secondary);
+	padding: 12px;
+	margin-bottom: 12px;
+	border-left: 3px solid var(--text-warning);
+}
+
+.btt-scroll {
+	overflow-x: auto;
+}
+
+.btt-table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.btt-table th, .btt-table td {
+	padding: 12px;
+	border: 1px solid var(--background-modifier-border);
+	text-align: left;
+	min-width: 130px;
+	max-width: 280px;
+	overflow-wrap: anywhere;
+}
+
+.btt-table thead th {
+	background: var(--background-secondary);
+}
+
+.btt-table tbody th {
+	background: var(--background-primary-alt);
+}
+
+.btt-table input[type="text"], .btt-table textarea {
+	width: 100%;
+	min-width: 100px;
+}
+
+.btt-table input[type="checkbox"] {
+	cursor: pointer;
+}
+
+.btt-row-mark {
+	font-size: var(--font-ui-smaller);
+	margin-top: 4px;
+}
+
+.btt-equal .btt-row-mark {
+	color: var(--text-success);
+}
+
+.btt-different .btt-row-mark {
+	color: var(--text-warning);
+}
+
+.btt-different td {
+	background: var(--background-secondary);
+}
+
+.btt-help {
+	margin-top: 14px;
+}
+
+.btt-status {
+	min-height: 24px;
+	margin-top: 12px;
+	color: var(--text-muted);
+}
+
+.btt-empty {
+	padding: 30px;
+	text-align: center;
+	color: var(--text-muted);
+}
+
+.btt-set-name {
+	width: 150px;
+}

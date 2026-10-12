@@ -1,0 +1,495 @@
+{
+ "slug": "bases-transpose-table",
+ "module": "bases-transpose-table/src/model",
+ "function": "selectPaths",
+ "cases": [
+  {
+   "name": "Two notes have costs 5 and 8",
+   "function": "toMarkdown",
+   "args": [
+    {
+     "names": [
+      "Atlas",
+      "Beacon"
+     ],
+     "rows": [
+      {
+       "label": "cost",
+       "values": [
+        "5",
+        "8"
+       ]
+      }
+     ]
+    }
+   ],
+   "expected": "| Property | Atlas | Beacon |\n| --- | --- | --- |\n| cost | 5 | 8 |\n"
+  },
+  {
+   "name": "An empty query has no file columns",
+   "function": "selectPaths",
+   "args": [
+    []
+   ],
+   "expected": {
+    "paths": [],
+    "hidden": 0,
+    "missing": 0
+   }
+  },
+  {
+   "name": "Six files show the first five in query order",
+   "function": "selectPaths",
+   "args": [
+    [
+     "f",
+     "c",
+     "b",
+     "e",
+     "a",
+     "d"
+    ]
+   ],
+   "expected": {
+    "paths": [
+     "f",
+     "c",
+     "b",
+     "e",
+     "a"
+    ],
+    "hidden": 1,
+    "missing": 0
+   }
+  },
+  {
+   "name": "Five files need no limit message",
+   "function": "selectPaths",
+   "args": [
+    [
+     "a",
+     "b",
+     "c",
+     "d",
+     "e"
+    ]
+   ],
+   "expected": {
+    "paths": [
+     "a",
+     "b",
+     "c",
+     "d",
+     "e"
+    ],
+    "hidden": 0,
+    "missing": 0
+   }
+  },
+  {
+   "name": "A numeric edit writes 12",
+   "function": "applyEdit",
+   "args": [
+    {
+     "cost": 5,
+     "other": "kept"
+    },
+    "cost",
+    5,
+    12
+   ],
+   "expected": {
+    "cost": 12,
+    "other": "kept"
+   }
+  },
+  {
+   "name": "abc is refused in a numeric cell",
+   "function": "parseEdit",
+   "args": [
+    "number",
+    "abc"
+   ],
+   "expected": {
+    "error": "Enter a valid number value. The old value was kept."
+   }
+  },
+  {
+   "name": "A false checkbox writes boolean true",
+   "function": "applyEdit",
+   "args": [
+    {
+     "done": false
+    },
+    "done",
+    false,
+    true
+   ],
+   "expected": {
+    "done": true
+   }
+  },
+  {
+   "name": "Formula totals have no edit control",
+   "function": "editableKind",
+   "args": [
+    "formula.total",
+    5,
+    "number"
+   ],
+   "expected": null
+  },
+  {
+   "name": "File size has no edit control",
+   "function": "editableKind",
+   "args": [
+    "file.size",
+    5,
+    "number"
+   ],
+   "expected": null
+  },
+  {
+   "name": "A list stays read only",
+   "function": "editableKind",
+   "args": [
+    "note.items",
+    [
+     "a",
+     "b"
+    ],
+    "readonly"
+   ],
+   "expected": null
+  },
+  {
+   "name": "A date string stays read only",
+   "function": "editableKind",
+   "args": [
+    "note.date",
+    "2026-10-12",
+    "text"
+   ],
+   "expected": null
+  },
+  {
+   "name": "An ISO timestamp stays read only",
+   "function": "editableKind",
+   "args": [
+    "note.date",
+    "2026-10-12T07:30",
+    "text"
+   ],
+   "expected": null
+  },
+  {
+   "name": "An object stays read only",
+   "function": "editableKind",
+   "args": [
+    "note.data",
+    {
+     "a": 2
+    },
+    "readonly"
+   ],
+   "expected": null
+  },
+  {
+   "name": "A concurrent numeric change is preserved",
+   "function": "applyEdit",
+   "args": [
+    {
+     "cost": 8
+    },
+    "cost",
+    5,
+    12
+   ],
+   "expected": {
+    "error": "Conflict: the property changed after this cell was shown. The new value was kept."
+   }
+  },
+  {
+   "name": "A concurrent type change is preserved",
+   "function": "applyEdit",
+   "args": [
+    {
+     "cost": "five"
+    },
+    "cost",
+    5,
+    12
+   ],
+   "expected": {
+    "error": "Conflict: the property changed after this cell was shown. The new value was kept."
+   }
+  },
+  {
+   "name": "A deleted property is not created again",
+   "function": "applyEdit",
+   "args": [
+    {},
+    "cost",
+    5,
+    12
+   ],
+   "expected": {
+    "error": "Conflict: the property changed after this cell was shown. The new value was kept."
+   }
+  },
+  {
+   "name": "A missing property stays empty and read only",
+   "function": "editableKind",
+   "args": [
+    "note.cost",
+    null,
+    "number"
+   ],
+   "expected": null
+  },
+  {
+   "name": "Stored text with a numeric display stays read only",
+   "function": "editableKind",
+   "args": [
+    "note.cost",
+    "5",
+    "number"
+   ],
+   "expected": null
+  },
+  {
+   "name": "Existing text is editable",
+   "function": "editableKind",
+   "args": [
+    "note.status",
+    "Draft",
+    "text"
+   ],
+   "expected": "text"
+  },
+  {
+   "name": "Existing numbers are editable",
+   "function": "editableKind",
+   "args": [
+    "note.cost",
+    5,
+    "number"
+   ],
+   "expected": "number"
+  },
+  {
+   "name": "Existing booleans are editable",
+   "function": "editableKind",
+   "args": [
+    "note.done",
+    false,
+    "boolean"
+   ],
+   "expected": "boolean"
+  },
+  {
+   "name": "Wikilinks stay read only",
+   "function": "editableKind",
+   "args": [
+    "note.link",
+    "[[Atlas]]",
+    "text"
+   ],
+   "expected": null
+  },
+  {
+   "name": "Unknown display types stay read only",
+   "function": "editableKind",
+   "args": [
+    "note.cost",
+    5,
+    "unknown"
+   ],
+   "expected": null
+  },
+  {
+   "name": "Blank numeric input is refused",
+   "function": "parseEdit",
+   "args": [
+    "number",
+    ""
+   ],
+   "expected": {
+    "error": "Enter a valid number value. The old value was kept."
+   }
+  },
+  {
+   "name": "Infinite numeric input is refused",
+   "function": "parseEdit",
+   "args": [
+    "number",
+    "1e999"
+   ],
+   "expected": {
+    "error": "Enter a valid number value. The old value was kept."
+   }
+  },
+  {
+   "name": "Decimal input keeps its numeric type",
+   "function": "parseEdit",
+   "args": [
+    "number",
+    " -2.5 "
+   ],
+   "expected": -2.5
+  },
+  {
+   "name": "Boolean strings are refused",
+   "function": "parseEdit",
+   "args": [
+    "boolean",
+    "true"
+   ],
+   "expected": {
+    "error": "Enter a valid boolean value. The old value was kept."
+   }
+  },
+  {
+   "name": "An empty text value stays a string",
+   "function": "applyEdit",
+   "args": [
+    {
+     "status": "Draft"
+    },
+    "status",
+    "Draft",
+    ""
+   ],
+   "expected": {
+    "status": ""
+   }
+  },
+  {
+   "name": "A numeric edit cannot convert the stored type",
+   "function": "applyEdit",
+   "args": [
+    {
+     "cost": 5
+    },
+    "cost",
+    5,
+    "12"
+   ],
+   "expected": {
+    "error": "This property is read only. Its type was kept."
+   }
+  },
+  {
+   "name": "Saved sets retain query order and report missing files",
+   "function": "selectPaths",
+   "args": [
+    [
+     "c",
+     "b",
+     "a"
+    ],
+    [
+     "a",
+     "c",
+     "gone"
+    ]
+   ],
+   "expected": {
+    "paths": [
+     "c",
+     "a"
+    ],
+    "hidden": 0,
+    "missing": 1
+   }
+  },
+  {
+   "name": "A saved set with no matching files is empty",
+   "function": "selectPaths",
+   "args": [
+    [
+     "a"
+    ],
+    [
+     "b"
+    ]
+   ],
+   "expected": {
+    "paths": [],
+    "hidden": 0,
+    "missing": 1
+   }
+  },
+  {
+   "name": "Bad saved data is ignored",
+   "function": "normalizeSets",
+   "args": [
+    [
+     null,
+     {
+      "name": "",
+      "paths": [
+       "a"
+      ]
+     },
+     {
+      "name": "Set",
+      "paths": [
+       "a",
+       "a",
+       4
+      ]
+     }
+    ]
+   ],
+   "expected": [
+    {
+     "name": "Set",
+     "paths": [
+      "a"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Markdown escapes pipes and line breaks",
+   "function": "toMarkdown",
+   "args": [
+    {
+     "names": [
+      "A|B"
+     ],
+     "rows": [
+      {
+       "label": "<cost>",
+       "values": [
+        "one\ntwo"
+       ]
+      }
+     ]
+    }
+   ],
+   "expected": "| Property | A\\|B |\n| --- | --- |\n| &lt;cost&gt; | one<br>two |\n"
+  },
+  {
+   "name": "Markdown keeps image syntax as plain value text",
+   "function": "toMarkdown",
+   "args": [
+    {
+     "names": [
+      "A"
+     ],
+     "rows": [
+      {
+       "label": "note",
+       "values": [
+        "![x](https://example.invalid/p.png)"
+       ]
+      }
+     ]
+    }
+   ],
+   "expected": "| Property | A |\n| --- | --- |\n| note | \\!\\[x\\](https://example.invalid/p.png) |\n"
+  }
+ ]
+}

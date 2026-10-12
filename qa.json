@@ -1,0 +1,85 @@
+[
+  {
+    "feature": "comparison",
+    "caption": "Three project notes in columns, with properties in rows.",
+    "note": "Project comparison.base",
+    "eval": "(async()=>{const p=app.plugins.plugins['bases-transpose-table']; const open=async(name)=>{await app.workspace.openLinkText('Bases Transpose Table/Project comparison.base#'+name,'',false);for(let i=0;i<100;i++){const v=p.targetView(); if(v && v.config.name===name && v.containerEl.querySelector('.btt-title') && v.sheet.names.length===(name==='Six notes'?5:3)) return v; await new Promise(r=>setTimeout(r,100));} throw Error('View did not render');}; p.pro.signOut(); await open('Compare'); return 'ok';})()",
+    "wait": 600,
+    "zoom": 0.9
+  },
+  {
+    "feature": "editing",
+    "caption": "Edit an existing cost while the other notes remain visible.",
+    "note": "Project comparison.base",
+    "eval": "(async()=>{const p=app.plugins.plugins['bases-transpose-table']; const open=async(name)=>{await app.workspace.openLinkText('Bases Transpose Table/Project comparison.base#'+name,'',false);for(let i=0;i<100;i++){const v=p.targetView(); if(v && v.config.name===name && v.containerEl.querySelector('.btt-title') && v.sheet.names.length===(name==='Six notes'?5:3)) return v; await new Promise(r=>setTimeout(r,100));} throw Error('View did not render');}; p.pro.signOut(); const v=await open('Compare'); const input=v.containerEl.querySelector('input[data-property=\"note.cost\"]');input.focus();input.value='12'; return 'ok';})()",
+    "wait": 600,
+    "zoom": 0.9,
+    "after": "(async()=>{const p=app.plugins.plugins['bases-transpose-table']; const open=async(name)=>{await app.workspace.openLinkText('Bases Transpose Table/Project comparison.base#'+name,'',false);for(let i=0;i<100;i++){const v=p.targetView(); if(v && v.config.name===name && v.containerEl.querySelector('.btt-title') && v.sheet.names.length===(name==='Six notes'?5:3)) return v; await new Promise(r=>setTimeout(r,100));} throw Error('View did not render');}; const v=p.targetView(); const input=v.containerEl.querySelector('input[data-property=\"note.cost\"]'); input.value='5';input.blur(); return 'ok';})()"
+  },
+  {
+    "feature": "readonly",
+    "caption": "Dates, lists, objects, formulas, file fields and missing values stay read only.",
+    "note": "Project comparison.base",
+    "eval": "(async()=>{const p=app.plugins.plugins['bases-transpose-table']; const open=async(name)=>{await app.workspace.openLinkText('Bases Transpose Table/Project comparison.base#'+name,'',false);for(let i=0;i<100;i++){const v=p.targetView(); if(v && v.config.name===name && v.containerEl.querySelector('.btt-title') && v.sheet.names.length===(name==='Six notes'?5:3)) return v; await new Promise(r=>setTimeout(r,100));} throw Error('View did not render');}; p.pro.signOut(); const v=await open('Compare'); v.containerEl.querySelector('tr[data-property=\"note.deadline\"]').scrollIntoView({block:'center'}); return 'ok';})()",
+    "wait": 600,
+    "zoom": 0.9
+  },
+  {
+    "feature": "limit",
+    "caption": "The view shows five of six notes and gives a limit message.",
+    "note": "Project comparison.base",
+    "eval": "(async()=>{const p=app.plugins.plugins['bases-transpose-table']; const open=async(name)=>{await app.workspace.openLinkText('Bases Transpose Table/Project comparison.base#'+name,'',false);for(let i=0;i<100;i++){const v=p.targetView(); if(v && v.config.name===name && v.containerEl.querySelector('.btt-title') && v.sheet.names.length===(name==='Six notes'?5:3)) return v; await new Promise(r=>setTimeout(r,100));} throw Error('View did not render');}; p.pro.signOut(); await open('Six notes'); return 'ok';})()",
+    "wait": 600,
+    "zoom": 0.9
+  },
+  {
+    "feature": "row-marks",
+    "caption": "Pro marks equal and different rows with text labels.",
+    "note": "Project comparison.base",
+    "eval": "(async()=>{const p=app.plugins.plugins['bases-transpose-table']; const open=async(name)=>{await app.workspace.openLinkText('Bases Transpose Table/Project comparison.base#'+name,'',false);for(let i=0;i<100;i++){const v=p.targetView(); if(v && v.config.name===name && v.containerEl.querySelector('.btt-title') && v.sheet.names.length===(name==='Six notes'?5:3)) return v; await new Promise(r=>setTimeout(r,100));} throw Error('View did not render');}; p.pro.opts.http=async()=>({status:200,json:{data:{viewer:{login:'demo-reader'},user:{sponsorshipForViewerAsSponsor:{isActive:true,isOneTimePayment:false,tier:{name:'$5 a month',monthlyPriceInCents:500}}}}}}); app.secretStorage.setSecret('bases-transpose-table-github-token','gho_'+'0'.repeat(36)); await p.pro.refreshNow(); await open('Marked'); return 'ok';})()",
+    "wait": 600,
+    "zoom": 0.9,
+    "after": "(async()=>{const p=app.plugins.plugins['bases-transpose-table']; const open=async(name)=>{await app.workspace.openLinkText('Bases Transpose Table/Project comparison.base#'+name,'',false);for(let i=0;i<100;i++){const v=p.targetView(); if(v && v.config.name===name && v.containerEl.querySelector('.btt-title') && v.sheet.names.length===(name==='Six notes'?5:3)) return v; await new Promise(r=>setTimeout(r,100));} throw Error('View did not render');}; p.pro.signOut(); return 'ok';})()"
+  },
+  {
+    "feature": "saved-sets",
+    "caption": "Pro stores a named set in the base view.",
+    "note": "Project comparison.base",
+    "eval": "(async()=>{const p=app.plugins.plugins['bases-transpose-table']; const open=async(name)=>{await app.workspace.openLinkText('Bases Transpose Table/Project comparison.base#'+name,'',false);for(let i=0;i<100;i++){const v=p.targetView(); if(v && v.config.name===name && v.containerEl.querySelector('.btt-title') && v.sheet.names.length===(name==='Six notes'?5:3)) return v; await new Promise(r=>setTimeout(r,100));} throw Error('View did not render');}; p.pro.opts.http=async()=>({status:200,json:{data:{viewer:{login:'demo-reader'},user:{sponsorshipForViewerAsSponsor:{isActive:true,isOneTimePayment:false,tier:{name:'$5 a month',monthlyPriceInCents:500}}}}}}); app.secretStorage.setSecret('bases-transpose-table-github-token','gho_'+'0'.repeat(36)); await p.pro.refreshNow(); const v=await open('Compare');v.config.set('transposeSets',null);v.saveSet('Planning review'); return 'ok';})()",
+    "wait": 600,
+    "zoom": 0.9,
+    "after": "(async()=>{const p=app.plugins.plugins['bases-transpose-table']; const open=async(name)=>{await app.workspace.openLinkText('Bases Transpose Table/Project comparison.base#'+name,'',false);for(let i=0;i<100;i++){const v=p.targetView(); if(v && v.config.name===name && v.containerEl.querySelector('.btt-title') && v.sheet.names.length===(name==='Six notes'?5:3)) return v; await new Promise(r=>setTimeout(r,100));} throw Error('View did not render');}; const v=p.targetView(); v.config.set('transposeSets',null);v.config.set('transposeActiveSet',null);p.pro.signOut(); return 'ok';})()"
+  },
+  {
+    "feature": "markdown-export",
+    "caption": "Pro writes a comparison table to a new Markdown note.",
+    "note": "Project comparison.base",
+    "eval": "(async()=>{const p=app.plugins.plugins['bases-transpose-table']; const open=async(name)=>{await app.workspace.openLinkText('Bases Transpose Table/Project comparison.base#'+name,'',false);for(let i=0;i<100;i++){const v=p.targetView(); if(v && v.config.name===name && v.containerEl.querySelector('.btt-title') && v.sheet.names.length===(name==='Six notes'?5:3)) return v; await new Promise(r=>setTimeout(r,100));} throw Error('View did not render');}; p.pro.opts.http=async()=>({status:200,json:{data:{viewer:{login:'demo-reader'},user:{sponsorshipForViewerAsSponsor:{isActive:true,isOneTimePayment:false,tier:{name:'$5 a month',monthlyPriceInCents:500}}}}}}); app.secretStorage.setSecret('bases-transpose-table-github-token','gho_'+'0'.repeat(36)); await p.pro.refreshNow(); const v=await open('Compare'); const file=await p.exportView(v);window.__bttExport=file.path;await app.workspace.openLinkText(file.path,'',false,{state:{mode:'preview'}}); return 'ok';})()",
+    "wait": 600,
+    "zoom": 0.9,
+    "after": "(async()=>{const p=app.plugins.plugins['bases-transpose-table']; const open=async(name)=>{await app.workspace.openLinkText('Bases Transpose Table/Project comparison.base#'+name,'',false);for(let i=0;i<100;i++){const v=p.targetView(); if(v && v.config.name===name && v.containerEl.querySelector('.btt-title') && v.sheet.names.length===(name==='Six notes'?5:3)) return v; await new Promise(r=>setTimeout(r,100));} throw Error('View did not render');}; const f=app.vault.getFileByPath(window.__bttExport);await open('Compare');if(f)await app.vault.delete(f);p.pro.signOut(); return 'ok';})()"
+  },
+  {
+    "feature": "workflow",
+    "caption": "Open a comparison, edit a cost, and show Pro row marks.",
+    "frames": [
+      {
+        "note": "Project comparison.base",
+        "eval": "(async()=>{const p=app.plugins.plugins['bases-transpose-table']; const open=async(name)=>{await app.workspace.openLinkText('Bases Transpose Table/Project comparison.base#'+name,'',false);for(let i=0;i<100;i++){const v=p.targetView(); if(v && v.config.name===name && v.containerEl.querySelector('.btt-title') && v.sheet.names.length===(name==='Six notes'?5:3)) return v; await new Promise(r=>setTimeout(r,100));} throw Error('View did not render');}; p.pro.signOut();await open('Compare'); return 'ok';})()",
+        "hold": 1700
+      },
+      {
+        "eval": "(async()=>{const p=app.plugins.plugins['bases-transpose-table']; const open=async(name)=>{await app.workspace.openLinkText('Bases Transpose Table/Project comparison.base#'+name,'',false);for(let i=0;i<100;i++){const v=p.targetView(); if(v && v.config.name===name && v.containerEl.querySelector('.btt-title') && v.sheet.names.length===(name==='Six notes'?5:3)) return v; await new Promise(r=>setTimeout(r,100));} throw Error('View did not render');}; const v=p.targetView();const input=v.containerEl.querySelector('input[data-property=\"note.cost\"]');input.focus();input.value='12'; return 'ok';})()",
+        "hold": 1500
+      },
+      {
+        "eval": "(async()=>{const p=app.plugins.plugins['bases-transpose-table']; const open=async(name)=>{await app.workspace.openLinkText('Bases Transpose Table/Project comparison.base#'+name,'',false);for(let i=0;i<100;i++){const v=p.targetView(); if(v && v.config.name===name && v.containerEl.querySelector('.btt-title') && v.sheet.names.length===(name==='Six notes'?5:3)) return v; await new Promise(r=>setTimeout(r,100));} throw Error('View did not render');}; const input=p.targetView().containerEl.querySelector('input[data-property=\"note.cost\"]');input.value='5';input.blur();p.pro.opts.http=async()=>({status:200,json:{data:{viewer:{login:'demo-reader'},user:{sponsorshipForViewerAsSponsor:{isActive:true,isOneTimePayment:false,tier:{name:'$5 a month',monthlyPriceInCents:500}}}}}}); app.secretStorage.setSecret('bases-transpose-table-github-token','gho_'+'0'.repeat(36)); await p.pro.refreshNow(); await open('Marked'); return 'ok';})()",
+        "hold": 1700
+      },
+      {
+        "eval": "(async()=>{const p=app.plugins.plugins['bases-transpose-table']; const open=async(name)=>{await app.workspace.openLinkText('Bases Transpose Table/Project comparison.base#'+name,'',false);for(let i=0;i<100;i++){const v=p.targetView(); if(v && v.config.name===name && v.containerEl.querySelector('.btt-title') && v.sheet.names.length===(name==='Six notes'?5:3)) return v; await new Promise(r=>setTimeout(r,100));} throw Error('View did not render');}; p.pro.signOut();await open('Six notes'); return 'ok';})()",
+        "hold": 1500
+      }
+    ]
+  }
+]
