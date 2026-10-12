@@ -15,7 +15,7 @@ export const SPONSORS: SponsorsConfig = {
 };
 
 export const PRO_UI = {
-	proSummary: 'Pro adds named comparison sets, equal and different row marks, and Markdown export.',
+	proSummary: 'Pro adds row edits, named comparison sets, equal and different row marks, and Markdown export.',
 	priceText: 'Sponsor $5 a month, or $15 once. When you have paid $15 in total, Pro stays on.',
 };
 

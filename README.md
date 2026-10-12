@@ -2,7 +2,7 @@
 
 Compare a few notes with many properties. Bases Transpose Table places note names across the top and properties down the left. Read costs, review states, and checkboxes side by side. Edit existing simple frontmatter values in the same view.
 
-The free view shows up to five notes from a base. It uses the property order from the Bases properties menu. It reads query results from Obsidian, so you choose notes with the native filters and sort controls. Pro adds named comparison sets, equal and different row marks, and export to a Markdown note.
+The free view shows up to five notes from a base. It uses the property order from the Bases properties menu. It reads query results from Obsidian, so you choose notes with the native filters and sort controls. Pro adds row edits, named comparison sets, equal and different row marks, and export to a Markdown note.
 
 ## Features
 
@@ -29,6 +29,16 @@ Formulas, file fields, lists, dates, objects, links, and unknown display types r
 A query with six notes shows its first five notes and a visible limit message. This limit also applies to Pro. Narrow the native filter to compare a different set. Grouped results follow the grouped query order, with the group label below the note name. The table has horizontal scrolling when its columns exceed the available width.
 
 <img src="https://raw.githubusercontent.com/theluckystrike/bases-transpose-table/HEAD/docs/limit.png" alt="Five note columns and a visible limit message" width="720">
+
+### Edit a property across visible notes (Pro)
+
+Select Edit row beside a property name. Set one value, then select Save row. The dialog lists the target note paths and starts with the first value. It needs two to five visible notes with existing text, number, or boolean values of the same type. Missing, mixed-type, and read-only rows have no Edit row button.
+
+The action changes only the notes listed in the dialog. Query updates wait until you close it. Cancel writes nothing. Invalid number input keeps the dialog open without a write. Checkbox rows save the checked state as a boolean.
+
+The plugin checks each original value before a write. Changed or deleted properties keep their current values. The result gives the saved count and each failed path. It saves each note separately. A failed write does not undo other writes. Row edits need Pro at the start and save steps.
+
+<img src="https://raw.githubusercontent.com/theluckystrike/bases-transpose-table/HEAD/docs/row-edit.png" alt="A Pro dialog to set Cost in three visible notes" width="720">
 
 ### Mark equal and different rows (Pro)
 
@@ -92,4 +102,4 @@ After a successful check, Pro can work offline for up to 14 days. Sign out or a 
 
 ## Support
 
-Report a reproducible problem in the GitHub issue tracker for this product. Include the Obsidian version, the view configuration, the property type, and the steps that caused the problem. Use sample values in place of private note content. For an edit conflict, include which other action changed the property. For a missing saved path, include whether the note moved or the base filter changed.
+Report problems in GitHub issues. Include the Obsidian version, property type, view configuration, and reproduction steps. Use sample values. Include failed row edit results.

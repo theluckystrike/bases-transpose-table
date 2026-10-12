@@ -490,6 +490,308 @@
     }
    ],
    "expected": "| Property | A |\n| --- | --- |\n| note | \\!\\[x\\](https://example.invalid/p.png) |\n"
+  },
+  {
+   "name": "Two numeric cells permit a row edit",
+   "function": "rowEditKind",
+   "args": [
+    "note.cost",
+    [
+     {
+      "raw": 5,
+      "displayed": "number"
+     },
+     {
+      "raw": 8,
+      "displayed": "number"
+     }
+    ]
+   ],
+   "expected": "number"
+  },
+  {
+   "name": "Two text cells permit a row edit",
+   "function": "rowEditKind",
+   "args": [
+    "note.status",
+    [
+     {
+      "raw": "Draft",
+      "displayed": "text"
+     },
+     {
+      "raw": "Done",
+      "displayed": "text"
+     }
+    ]
+   ],
+   "expected": "text"
+  },
+  {
+   "name": "Two boolean cells permit a row edit",
+   "function": "rowEditKind",
+   "args": [
+    "note.done",
+    [
+     {
+      "raw": false,
+      "displayed": "boolean"
+     },
+     {
+      "raw": true,
+      "displayed": "boolean"
+     }
+    ]
+   ],
+   "expected": "boolean"
+  },
+  {
+   "name": "A single note has no row edit",
+   "function": "rowEditKind",
+   "args": [
+    "note.cost",
+    [
+     {
+      "raw": 5,
+      "displayed": "number"
+     }
+    ]
+   ],
+   "expected": null
+  },
+  {
+   "name": "Mixed stored types have no row edit",
+   "function": "rowEditKind",
+   "args": [
+    "note.cost",
+    [
+     {
+      "raw": 5,
+      "displayed": "number"
+     },
+     {
+      "raw": "8",
+      "displayed": "text"
+     }
+    ]
+   ],
+   "expected": null
+  },
+  {
+   "name": "An absent row value has no row edit",
+   "function": "rowEditKind",
+   "args": [
+    "note.cost",
+    [
+     {
+      "raw": 5,
+      "displayed": "number"
+     },
+     {
+      "raw": null,
+      "displayed": "number"
+     }
+    ]
+   ],
+   "expected": null
+  },
+  {
+   "name": "Dates have no row edit",
+   "function": "rowEditKind",
+   "args": [
+    "note.date",
+    [
+     {
+      "raw": "2026-10-12",
+      "displayed": "text"
+     },
+     {
+      "raw": "2026-10-12",
+      "displayed": "text"
+     }
+    ]
+   ],
+   "expected": null
+  },
+  {
+   "name": "Links have no row edit",
+   "function": "rowEditKind",
+   "args": [
+    "note.link",
+    [
+     {
+      "raw": "[[A]]",
+      "displayed": "text"
+     },
+     {
+      "raw": "[[A]]",
+      "displayed": "text"
+     }
+    ]
+   ],
+   "expected": null
+  },
+  {
+   "name": "Formula values have no row edit",
+   "function": "rowEditKind",
+   "args": [
+    "formula.total",
+    [
+     {
+      "raw": 5,
+      "displayed": "number"
+     },
+     {
+      "raw": 5,
+      "displayed": "number"
+     }
+    ]
+   ],
+   "expected": null
+  },
+  {
+   "name": "File fields have no row edit",
+   "function": "rowEditKind",
+   "args": [
+    "file.size",
+    [
+     {
+      "raw": 5,
+      "displayed": "number"
+     },
+     {
+      "raw": 5,
+      "displayed": "number"
+     }
+    ]
+   ],
+   "expected": null
+  },
+  {
+   "name": "Six cells cannot use a row edit",
+   "function": "rowEditKind",
+   "args": [
+    "note.cost",
+    [
+     {
+      "raw": 5,
+      "displayed": "number"
+     },
+     {
+      "raw": 5,
+      "displayed": "number"
+     },
+     {
+      "raw": 5,
+      "displayed": "number"
+     },
+     {
+      "raw": 5,
+      "displayed": "number"
+     },
+     {
+      "raw": 5,
+      "displayed": "number"
+     },
+     {
+      "raw": 5,
+      "displayed": "number"
+     }
+    ]
+   ],
+   "expected": null
+  },
+  {
+   "name": "Lists have no row edit",
+   "function": "rowEditKind",
+   "args": [
+    "note.tags",
+    [
+     {
+      "raw": [
+       "a"
+      ],
+      "displayed": "readonly"
+     },
+     {
+      "raw": [
+       "a"
+      ],
+      "displayed": "readonly"
+     }
+    ]
+   ],
+   "expected": null
+  },
+  {
+   "name": "Objects have no row edit",
+   "function": "rowEditKind",
+   "args": [
+    "note.details",
+    [
+     {
+      "raw": {
+       "a": 1
+      },
+      "displayed": "readonly"
+     },
+     {
+      "raw": {
+       "a": 1
+      },
+      "displayed": "readonly"
+     }
+    ]
+   ],
+   "expected": null
+  },
+  {
+   "name": "A display type mismatch prevents a row edit",
+   "function": "rowEditKind",
+   "args": [
+    "note.cost",
+    [
+     {
+      "raw": 5,
+      "displayed": "number"
+     },
+     {
+      "raw": 8,
+      "displayed": "text"
+     }
+    ]
+   ],
+   "expected": null
+  },
+  {
+   "name": "Five cells permit a row edit",
+   "function": "rowEditKind",
+   "args": [
+    "note.cost",
+    [
+     {
+      "raw": 5,
+      "displayed": "number"
+     },
+     {
+      "raw": 5,
+      "displayed": "number"
+     },
+     {
+      "raw": 5,
+      "displayed": "number"
+     },
+     {
+      "raw": 5,
+      "displayed": "number"
+     },
+     {
+      "raw": 5,
+      "displayed": "number"
+     }
+    ]
+   ],
+   "expected": "number"
   }
  ]
 }

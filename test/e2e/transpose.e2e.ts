@@ -140,4 +140,57 @@ describe('Transpose in the real app', function () {
 		expect(markdown).toContain('| Property | Atlas | Beacon | Cobalt |'); expect(markdown).toContain('| Cost | 5 | 8 | 5 |');
 		await clickButton('Delete set'); await setPro(false); await browser.waitUntil(async () => (await state()).marks === 0, { timeout: 10000 });
 	});
+	it('Pro row editor cancels, rejects invalid input, and saves only five visible notes', async function () {
+		await setPro(true); await openView('Six notes');
+		const paths = await browser.executeObsidian(({ app }, id) => {
+			const p = (app as unknown as { plugins: { plugins: Record<string, BasesTransposeTablePlugin> } }).plugins.plugins[id]!;
+			return [...p.targetView()!.paths];
+		}, pluginId);
+		const originals = await Promise.all(paths.map((path) => value(path, 'cost')));
+		const hidden = `${DIR}/Notes/Fjord.md`;
+		const hiddenOriginal = await value(hidden, 'cost');
+		try {
+			await browser.$(`${ROOT} tr[data-property="note.cost"] .btt-edit-row`).click();
+			expect(await browser.$$('.btt-row-editor li').length).toBe(5);
+			await browser.$('.btt-row-editor input').setValue('abc');
+			await browser.$('.btt-row-actions .mod-cta').click();
+			expect(await browser.$('.btt-row-editor').getText()).toContain('Enter a valid number');
+			expect(await value(paths[0]!, 'cost')).toBe(originals[0]);
+			await browser.$('.btt-row-actions button').click();
+			expect(await browser.$('.btt-row-editor').isExisting()).toBe(false);
+			await browser.$(`${ROOT} tr[data-property="note.cost"] .btt-edit-row`).click();
+			await browser.$('.btt-row-editor input').setValue('12.5');
+			await browser.$('.btt-row-actions .mod-cta').click();
+			for (const path of paths) await waitValue(path, 'cost', 12.5);
+			expect(await value(hidden, 'cost')).toBe(hiddenOriginal);
+			expect((await state()).text).toContain('Saved cost in 5 of 5 notes.');
+		} finally {
+			await browser.executeObsidian(async ({ app }, paths, originals) => {
+				for (let i = 0; i < paths.length; i++) await app.fileManager.processFrontMatter(app.vault.getFileByPath(paths[i]!)!, (fm: Record<string, unknown>) => { fm.cost = originals[i]; });
+			}, paths, originals);
+			await setPro(false);
+		}
+	});
+	it('Pro row edit keeps a concurrent value and reports partial success', async function () {
+		await setPro(true); await openView();
+		const paths = [ATLAS, BEACON, `${DIR}/Notes/Cobalt.md`];
+		const originals = await Promise.all(paths.map((path) => value(path, 'cost')));
+		try {
+			await browser.$(`${ROOT} tr[data-property="note.cost"] .btt-edit-row`).click();
+			await browser.executeObsidian(async ({ app }, path) => { await app.fileManager.processFrontMatter(app.vault.getFileByPath(path)!, (fm: Record<string, unknown>) => { fm.cost = 99; }); }, ATLAS);
+			await waitValue(ATLAS, 'cost', 99);
+			await browser.$('.btt-row-editor input').setValue('12');
+			await browser.$('.btt-row-actions .mod-cta').click();
+			await waitValue(BEACON, 'cost', 12); await waitValue(paths[2]!, 'cost', 12);
+			expect(await value(ATLAS, 'cost')).toBe(99);
+			await browser.waitUntil(async () => (await state()).text.includes('Saved cost in 2 of 3 notes.'), { timeout: 10000 });
+			expect((await state()).text).toContain(`${ATLAS}: Conflict:`);
+		} finally {
+			await browser.executeObsidian(async ({ app }, paths, originals) => {
+				for (let i = 0; i < paths.length; i++) await app.fileManager.processFrontMatter(app.vault.getFileByPath(paths[i]!)!, (fm: Record<string, unknown>) => { fm.cost = originals[i]; });
+			}, paths, originals);
+			await setPro(false);
+		}
+	});
+
 });

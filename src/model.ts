@@ -15,6 +15,13 @@ export function editableKind(property: string, raw: unknown, displayed: string):
 	return kind === displayed ? kind : null;
 }
 
+/** A row edit must preserve the type of every visible cell. */
+export function rowEditKind(property: string, cells: { raw: unknown; displayed: string }[]): EditKind | null {
+	if (cells.length < 2 || cells.length > 5) return null;
+	const kind = editableKind(property, cells[0]!.raw, cells[0]!.displayed);
+	return kind && cells.every((cell) => editableKind(property, cell.raw, cell.displayed) === kind) ? kind : null;
+}
+
 export function parseEdit(kind: EditKind, input: unknown): Editable {
 	if (kind === 'boolean' && typeof input === 'boolean') return input;
 	if (kind === 'text' && typeof input === 'string') return input;

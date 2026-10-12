@@ -99,3 +99,20 @@
 .btt-set-name {
 	width: 150px;
 }
+
+.btt-edit-row {
+	display: block;
+	margin-top: 8px;
+	font-size: var(--font-ui-small);
+}
+
+.btt-row-editor textarea, .btt-row-editor input[type="text"] {
+	width: 100%;
+}
+
+.btt-row-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	margin-top: 16px;
+}

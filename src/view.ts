@@ -1,7 +1,8 @@
 import { BasesView, BooleanValue, NumberValue, StringValue, NullValue, Value, Notice, parsePropertyId, type BasesEntry, type BasesPropertyId, type BasesAllOptions, type QueryController } from 'obsidian';
 import type BasesTransposeTablePlugin from './main';
 import { isPro, onProChange } from './pro';
-import { applyEdit, editableKind, normalizeSets, parseEdit, selectPaths, type Editable, type EditKind, type Sheet } from './model';
+import { applyEdit, editableKind, normalizeSets, parseEdit, rowEditKind, selectPaths, type Editable, type EditKind, type Sheet } from './model';
+import { RowEditor } from './row-editor';
 
 export const VIEW_ID = 'bases-transpose-table';
 export const KEY = { marks: 'transposeMarks', sets: 'transposeSets', active: 'transposeActiveSet' };
@@ -28,6 +29,7 @@ export class TransposeView extends BasesView {
 	private pending = false;
 	private dirty = false;
 	private disposed = false;
+	private rowEditor: RowEditor | null = null;
 	sheet: Sheet = { names: [], rows: [] };
 	paths: string[] = [];
 
@@ -37,13 +39,13 @@ export class TransposeView extends BasesView {
 		this.body = this.containerEl.createDiv();
 		this.status = this.containerEl.createDiv({ cls: 'btt-status', attr: { role: 'status', 'aria-live': 'polite' } });
 		plugin.views.add(this);
-		this.register(() => { this.disposed = true; plugin.views.delete(this); this.containerEl.remove(); });
+		this.register(() => { this.disposed = true; this.rowEditor?.close(); plugin.views.delete(this); this.containerEl.remove(); });
 		this.register(onProChange(() => this.onDataUpdated()));
 	}
 
 	onDataUpdated(): void {
 		if (this.disposed || !this.data) return;
-		if (this.pending || this.containerEl.contains(this.containerEl.ownerDocument.activeElement) && this.containerEl.ownerDocument.activeElement?.classList.contains('btt-cell-input')) {
+		if (this.pending || this.rowEditor || this.containerEl.contains(this.containerEl.ownerDocument.activeElement) && this.containerEl.ownerDocument.activeElement?.classList.contains('btt-cell-input')) {
 			this.dirty = true;
 			return;
 		}
@@ -85,7 +87,7 @@ export class TransposeView extends BasesView {
 			});
 			toolbar.createEl('button', { text: 'Export Markdown' }).addEventListener('click', () => void this.plugin.exportView(this));
 		} else {
-			toolbar.createSpan({ cls: 'btt-pro-note', text: 'Pro adds saved sets, row marks, and Markdown export.' });
+			toolbar.createSpan({ cls: 'btt-pro-note', text: 'Pro adds row edits, saved sets, row marks, and Markdown export.' });
 		}
 		if (selected.hidden) this.body.createDiv({ cls: 'btt-limit', text: `Five-note limit: showing the first five of ${selected.hidden + 5} notes in query and group order. Use Bases filters to choose fewer notes.` });
 		if (selected.missing) this.body.createDiv({ cls: 'btt-limit', text: `${selected.missing} saved notes are absent from this query. Check filters, moved notes, or deleted notes.` });
@@ -108,6 +110,9 @@ export class TransposeView extends BasesView {
 			const heading = row.createEl('th', { text: label, attr: { scope: 'row' } });
 			const values = columns.map(({ entry }) => entry.getValue(property));
 			this.sheet.rows.push({ label, values: values.map(valueText) });
+			if (pro && this.rowKind(property, columns.map(({ entry }) => entry), values)) {
+				heading.createEl('button', { text: 'Edit row', cls: 'btt-edit-row', attr: { 'aria-label': `Edit ${label} in all visible notes (Pro)` } }).addEventListener('click', () => this.openRowEditor(property));
+			}
 			if (pro && this.config.get(KEY.marks) === true && columns.length > 1) {
 				const equal = values.every((v) => Value.equals(values[0] ?? null, v));
 				row.classList.add(equal ? 'btt-equal' : 'btt-different');
@@ -116,6 +121,54 @@ export class TransposeView extends BasesView {
 			columns.forEach(({ entry }, i) => this.cell(row.createEl('td'), entry, property, values[i] ?? null));
 		}
 		this.body.createDiv({ cls: 'btt-help', text: 'Text and number: press Enter or leave the cell to save. Escape cancels. Checkboxes save when toggled. Other values are read only.' });
+	}
+
+	private rowKind(property: BasesPropertyId, entries: BasesEntry[], values: (Value | null)[]): EditKind | null {
+		const { name } = parsePropertyId(property);
+		return rowEditKind(property, entries.map((entry, i) => {
+			const fm = this.app.metadataCache.getFileCache(entry.file)?.frontmatter;
+			const raw: unknown = entry.file.extension === 'md' && fm && Object.prototype.hasOwnProperty.call(fm, name) ? fm[name] : undefined;
+			return { raw, displayed: displayKind(values[i] ?? null) };
+		}));
+	}
+
+	openRowEditor(property: BasesPropertyId): boolean {
+		if (!isPro()) { this.message('Row edits need Pro.'); return false; }
+		if (this.disposed || this.pending || this.rowEditor || !this.data) return false;
+		if (!this.config.getOrder().includes(property)) return false;
+		const entries = this.paths.map((path) => this.data.data.find((entry) => entry.file.path === path));
+		if (entries.some((entry) => !entry)) return false;
+		const targets = entries as BasesEntry[];
+		const kind = this.rowKind(property, targets, targets.map((entry) => entry.getValue(property)));
+		if (!kind) { this.message('Each visible note must have an existing simple value of the same type.'); return false; }
+		const { name } = parsePropertyId(property);
+		const snapshot = targets.map((entry) => ({ file: entry.file, path: entry.file.path, original: this.app.metadataCache.getFileCache(entry.file)!.frontmatter![name] as Editable }));
+		const editor = new RowEditor(this.app, this.config.getDisplayName(property), snapshot.map(({ file }) => file.path), kind, snapshot[0]!.original, async (next) => {
+			if (!isPro() || this.disposed || this.pending) { this.message('Row edit was not saved. Check Pro and try again.'); return; }
+			this.pending = true;
+			this.containerEl.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement>('input, textarea, button, select').forEach((el) => { el.disabled = true; });
+			let saved = 0;
+			const failed: string[] = [];
+			try {
+				for (const target of snapshot) {
+					try {
+						if (this.disposed || !isPro()) throw new Error('Row edit stopped.');
+						if (target.file.path !== target.path || this.app.vault.getFileByPath(target.path) !== target.file) throw new Error('Note is no longer available.');
+						await this.app.fileManager.processFrontMatter(target.file, (fm: Record<string, unknown>) => applyEdit(fm, name, target.original, next));
+						saved++;
+					} catch (error) { failed.push(`${target.path}: ${error instanceof Error ? error.message : String(error)}`); }
+				}
+			} finally {
+				this.pending = false;
+				if (!this.disposed) {
+					this.onDataUpdated();
+					this.message(`Saved ${name} in ${saved} of ${snapshot.length} notes.${failed.length ? ' Not saved: ' + failed.join(' ') : ''}`);
+				}
+			}
+		}, () => { this.rowEditor = null; if (this.dirty) this.onDataUpdated(); });
+		this.rowEditor = editor;
+		editor.open();
+		return true;
 	}
 
 	saveSet(name: string): boolean {
