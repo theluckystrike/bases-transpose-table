@@ -116,6 +116,16 @@ describe('comparison controls', () => {
 		expect(view.sheet.names).toEqual(['B']);
 		expect(view.containerEl.textContent).toContain('1 saved notes are absent');
 	});
+	it('does not rewrite stored CR line breaks when a text cell loses focus without a change', async () => {
+		const { view, app } = setup({ 'A.md': '---\nstatus: "one\\r\\ntwo"\n---\nA', 'B.md': '---\nstatus: Draft\n---\nB' });
+		expect(app.metadataCache.getFileCache(app.vault.getFileByPath('A.md')!)?.frontmatter?.status).toBe('one\r\ntwo');
+		const write = vi.spyOn(app.fileManager, 'processFrontMatter');
+		const input = view.containerEl.querySelector<HTMLTextAreaElement>('textarea')!;
+		// Chromium returns textarea values with LF line breaks. happy-dom does not, so the test sets that value.
+		input.focus(); input.value = 'one\ntwo'; input.blur();
+		await new Promise<void>((resolve) => setTimeout(resolve, 0));
+		expect(write).not.toHaveBeenCalled();
+	});
 	it('removes a view and its DOM on unload', () => {
 		const { view, plugin } = setup();
 		expect(plugin.views.size).toBe(1); view.unload();

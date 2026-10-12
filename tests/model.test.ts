@@ -15,3 +15,10 @@ describe('saved set names', () => {
 		expect(normalizeSets([{ name: name + 'one', paths: ['A.md'] }, { name: name + 'two', paths: ['B.md'] }])).toEqual([{ name, paths: ['A.md'] }]);
 	});
 });
+
+describe('Markdown export marks', () => {
+	it('escapes tag, math, comment and highlight marks so the export keeps plain value text', () => {
+		const markdown = toMarkdown({ names: ['A'], rows: [{ label: 'Note', values: ['#urgent $5/$8 %%hidden%% ==mark=='] }] });
+		expect(markdown).toBe('| Property | A |\n| --- | --- |\n| Note | \\#urgent \\$5/\\$8 \\%\\%hidden\\%\\% \\=\\=mark\\=\\= |\n');
+	});
+});

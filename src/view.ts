@@ -217,7 +217,8 @@ export class TransposeView extends BasesView {
 			if (key === 'Escape') { input.value = String(original); if ('checked' in input) input.checked = original === true; input.blur(); }
 		});
 		input.addEventListener('blur', () => {
-			if (kind !== 'boolean' && input.value !== String(original)) commit();
+			// Browsers report textarea line breaks as LF, so a stored CR or CRLF is not a change.
+			if (kind !== 'boolean' && input.value !== String(original).replace(/\r\n?/g, '\n')) commit();
 			else queueMicrotask(() => { if (this.dirty) this.onDataUpdated(); });
 		});
 	}

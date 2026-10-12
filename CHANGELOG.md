@@ -1,5 +1,11 @@
 # bases-transpose-table
 
+## 1.1.1
+
+### Patch Changes
+
+- ab2f27d: Markdown export now escapes tag, math, comment and highlight marks, and a text cell with stored CR line breaks is no longer rewritten when it loses focus without a change.
+
 ## 1.1.0
 
 ### Minor Changes

@@ -64,7 +64,7 @@ export function selectPaths(paths: string[], selected?: string[]): { paths: stri
 
 export interface Sheet { names: string[]; rows: { label: string; values: string[] }[] }
 function markdownCell(value: string): string {
-	return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/([\\`*_[\]!~])/g, '\\$1').replace(/\|/g, '\\|').replace(/\r\n|\r|\n/g, '<br>');
+	return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/([\\`*_[\]!~#$%=])/g, '\\$1').replace(/\|/g, '\\|').replace(/\r\n|\r|\n/g, '<br>');
 }
 export function toMarkdown(sheet: Sheet): string {
 	const row = (cells: string[]) => '| ' + cells.map(markdownCell).join(' | ') + ' |';

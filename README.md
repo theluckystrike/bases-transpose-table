@@ -54,7 +54,7 @@ Enter a set name and select Save set. The view stores the visible note paths in 
 
 ### Export Markdown (Pro)
 
-Select Export Markdown to create a new comparison note in the vault. The export contains the displayed note names, property labels, and value text. It is a snapshot, with no connection back to the source properties. Pipes, line breaks, and Markdown formatting marks are escaped for the table. The command palette also has Export comparison to Markdown when the active pane contains one visible comparison view. If a note has several embedded comparisons, use the Export Markdown button in the required comparison.
+Select Export Markdown to create a new comparison note in the vault. The export contains the displayed note names, property labels, and value text. It is a snapshot, with no connection back to the source properties. The export escapes pipes, line breaks, HTML, and the Markdown marks for emphasis, code, links, images, tags, math, comments, and highlights. The command palette also has Export comparison to Markdown when the active pane contains one visible comparison view. If a note has several embedded comparisons, use the Export Markdown button in the required comparison.
 
 <img src="https://raw.githubusercontent.com/theluckystrike/bases-transpose-table/HEAD/docs/markdown-export.png" alt="A comparison exported to a Markdown table" width="720">
 
