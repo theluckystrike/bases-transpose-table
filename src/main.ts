@@ -13,7 +13,7 @@ export default class BasesTransposeTablePlugin extends Plugin {
 
 	onload(): void {
 		this.disposed = false;
-		const pro = createGitHubSponsors(this.app, this.manifest.id, SPONSORS);
+		const pro = createGitHubSponsors(this.app, this.manifest.id, SPONSORS, this);
 		pro.init();
 		this.pro = pro;
 		bindPro(pro);
