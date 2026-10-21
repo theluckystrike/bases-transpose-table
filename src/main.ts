@@ -5,6 +5,8 @@ import { SPONSORS, bindPro, isPro, resetPro } from './pro';
 import { BasesTransposeTableSettingTab } from './settings';
 import { TransposeView, VIEW_ID, viewOptions } from './view';
 import { toMarkdown } from './model';
+import { setupHello } from './hello/index';
+import WHATS_NEW from './whats-new.json';
 
 export default class BasesTransposeTablePlugin extends Plugin {
 	pro: SponsorsManager | null = null;
@@ -12,6 +14,8 @@ export default class BasesTransposeTablePlugin extends Plugin {
 	private disposed = false;
 
 	onload(): void {
+		// First: "What's new" reads its state before the settings load (packages/hello). It does not wait.
+		setupHello(this, WHATS_NEW);
 		this.disposed = false;
 		const pro = createGitHubSponsors(this.app, this.manifest.id, SPONSORS, this);
 		pro.init();

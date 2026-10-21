@@ -2,7 +2,7 @@
 
 Compare a few notes with many properties. Bases Transpose Table places note names across the top and properties down the left. Read costs, review states, and checkboxes side by side. Edit existing simple frontmatter values in the same view.
 
-The free view shows up to five notes from a base. It uses the property order from the Bases properties menu. It reads query results from Obsidian, so you choose notes with the native filters and sort controls. Pro adds row edits, named comparison sets, equal and different row marks, and export to a Markdown note.
+The free view shows up to five notes from a base. It reads query results from Obsidian, so you choose notes with the native filters and sort controls.
 
 ## Features
 
@@ -42,7 +42,7 @@ The plugin checks each original value before a write. Changed or deleted propert
 
 ### Mark equal and different rows (Pro)
 
-Turn on Mark equal and different rows in the view options. With Pro active and two or more notes, each property row receives an Equal or Different label. Equality uses the Bases value comparison, including type information. The words give meaning to the marks without requiring the reader to identify a color. The option is ignored when Pro is off.
+Turn on Mark equal and different rows in the view options. With Pro active and two or more notes, each property row receives an Equal or Different label. Equality uses the Bases value comparison, including type information. The words give meaning to the marks without requiring the reader to identify a color.
 
 <img src="https://raw.githubusercontent.com/theluckystrike/bases-transpose-table/HEAD/docs/row-marks.png" alt="Equal and Different row labels in a Pro comparison" width="720">
 
@@ -66,13 +66,15 @@ Use Obsidian 1.13.4 or a later public version. Enable the Bases core plugin. For
 
 ## Usage
 
-Start with a base that selects your project notes. Open its view menu and select the Transpose type. Use the properties menu to select rows and change their order. A display name configured in the base becomes the row label. Use the sort menu to arrange the note columns. Add a filter when you need a smaller comparison.
+Start with a base that selects your project notes. Open its view menu and select the Transpose type. Use the properties menu to select rows and change their order. A display name configured in the base becomes the row label. Use the sort menu to arrange the note columns.
 
-Try an existing number first. Change a cost from 5 to 12, press Enter, and open the note from its column heading to inspect the result. The write affects that note's property. It does not copy the value to neighboring columns. Add missing properties in the source note before you try to edit them in this view.
+Try an existing number first. Change a cost from 5 to 12, press Enter, and open the note from its column heading to inspect the result. The write affects that note's property. It does not copy the value to neighboring columns.
 
 ## Settings
 
-The plugin settings explain the view and contain the GitHub Sponsors controls. Row order, filters, sorting, and grouping are native Bases controls. The row marks toggle belongs to each Transpose view. Named sets are stored with the view configuration in the base file, rather than in a separate online account. A view can hold up to 50 sets, each with up to five paths.
+After a minor or major update, this plugin opens one What's new tab in the background. The tab and settings card suggest other NoteMods plugins and Zovo Chat and link to notemods.com for feedback ([privacy](https://notemods.com/privacy/)). The tab sends no data. Turn the tab off in Settings.
+
+The plugin settings explain the view and contain the GitHub Sponsors controls. The row marks toggle belongs to each Transpose view. Named sets are stored with the view configuration in the base file, rather than in a separate online account. A view can hold up to 50 sets, each with up to five paths.
 
 ## FAQ
 
@@ -86,7 +88,7 @@ No. A saved set is restricted to the current query. A moved or deleted note can 
 
 ### What has not been tested?
 
-Linux and Windows app runs, physical phones and tablets, third-party themes, screen readers, detached windows, large property counts, and concurrent writes from sync services were not tested. The code uses public Obsidian and browser APIs without Node or Electron imports. A mobile device test is still required. The Sponsors tests use local replies; a real paid account and a live payment were not tested.
+Linux and Windows app runs, physical phones and tablets, third-party themes, screen readers, detached windows, large property counts, and concurrent writes from sync services were not tested. The code uses public Obsidian and browser APIs without Node or Electron imports. The Sponsors tests use local replies; a real paid account and a live payment were not tested.
 
 ## Payment, account and network
 
