@@ -1,5 +1,6 @@
 {
 	"name": "bases-transpose-table",
+	"repository": {"type": "git", "url": "theluckystrike/bases-transpose-table.git"},
 	"version": "1.2.0",
 	"private": true,
 	"description": "Compare notes in columns and edit simple properties in rows.",
