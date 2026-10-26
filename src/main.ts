@@ -67,7 +67,7 @@ export default class BasesTransposeTablePlugin extends Plugin {
 	}
 
 	async exportView(view: TransposeView): Promise<TFile | null> {
-		if (!isPro()) { view.message('Markdown export needs Pro. Sign in from the plugin settings.'); return null; }
+		if (!isPro()) { view.proMessage('Markdown export needs Pro.'); return null; }
 		if (view.isSaving) { view.message('Wait for the edit to finish before exporting.'); return null; }
 		if (!view.sheet.names.length) { view.message('There are no notes to export.'); return null; }
 		try {

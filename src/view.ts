@@ -1,6 +1,6 @@
 import { BasesView, BooleanValue, NumberValue, StringValue, NullValue, Value, Notice, parsePropertyId, type BasesEntry, type BasesPropertyId, type BasesAllOptions, type QueryController } from 'obsidian';
 import type BasesTransposeTablePlugin from './main';
-import { isPro, onProChange } from './pro';
+import { isPro, onProChange, proNotice, proText } from './pro';
 import { applyEdit, editableKind, normalizeSets, parseEdit, rowEditKind, selectPaths, type Editable, type EditKind, type Sheet } from './model';
 import { RowEditor } from './row-editor';
 
@@ -55,6 +55,8 @@ export class TransposeView extends BasesView {
 	get isSaving(): boolean { return this.pending; }
 
 	message(text: string): void { this.status.setText(text); new Notice(text); }
+	/** A Pro gate: the status line gets the shared Pro text, and the shared Pro notice shows. */
+	proMessage(lead: string): void { this.status.setText(proText(lead)); proNotice(lead); }
 
 	private render(): void {
 		this.dirty = false;
@@ -133,7 +135,7 @@ export class TransposeView extends BasesView {
 	}
 
 	openRowEditor(property: BasesPropertyId): boolean {
-		if (!isPro()) { this.message('Row edits need Pro.'); return false; }
+		if (!isPro()) { this.proMessage('Row edits need Pro.'); return false; }
 		if (this.disposed || this.pending || this.rowEditor || !this.data) return false;
 		if (!this.config.getOrder().includes(property)) return false;
 		const entries = this.paths.map((path) => this.data.data.find((entry) => entry.file.path === path));
@@ -172,7 +174,7 @@ export class TransposeView extends BasesView {
 	}
 
 	saveSet(name: string): boolean {
-		if (!isPro()) { this.message('Saved comparison sets need Pro.'); return false; }
+		if (!isPro()) { this.proMessage('Saved comparison sets need Pro.'); return false; }
 		if (this.pending) { this.message('Wait for the edit to finish before saving a set.'); return false; }
 		name = name.trim().slice(0, 80);
 		if (!name || !this.paths.length) { this.message('Enter a set name and compare at least one note.'); return false; }

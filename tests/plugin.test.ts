@@ -10,7 +10,7 @@ describe('Sponsors gate', () => {
 		const app = App.createConfigured__({ files: { 'a.md': '# A' } });
 		const plugin = new BasesTransposeTablePlugin(app as never, manifest as never);
 		const message = vi.fn();
-		expect(await plugin.exportView({ message } as never)).toBeNull();
+		expect(await plugin.exportView({ proMessage: message } as never)).toBeNull();
 		expect(message).toHaveBeenCalledOnce();
 		expect(isPro()).toBe(false);
 	});
