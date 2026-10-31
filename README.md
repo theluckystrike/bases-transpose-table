@@ -4,6 +4,17 @@ Compare a few notes with many properties. Bases Transpose Table places note name
 
 The free view shows up to five notes from a base. It reads query results from Obsidian, so you choose notes with the native filters and sort controls.
 
+## Quick start
+
+```yaml
+---
+cost: 5
+reviewed: false
+---
+```
+
+Start with a base that selects your project notes. Open its view menu and select the Transpose type. Use the properties menu to select rows and change their order. Change a cost from 5 to 12, press Enter, and open the note from its column heading to inspect the result.
+
 ## Features
 
 ### Compare notes in columns
@@ -94,7 +105,7 @@ Linux and Windows app runs, physical phones and tablets, third-party themes, scr
 
 The core features are free. Pro features need a GitHub Sponsors sponsorship of theluckystrike: $5 a month or more, or $15 once. A total payment of $15 meets the payment requirement for Pro without further payment. Sign-in and the checks below still apply. Your notes stay readable and editable with or without Pro.
 
-GitHub handles the payment. Sponsor at https://github.com/sponsors/theluckystrike. You need no account for the free features. Pro needs the GitHub account that sponsors.
+GitHub handles the payment. Sponsor at https://github.com/sponsors/theluckystrike?frequency=one-time&metadata_source=bases-transpose-table. You need no account for the free features. Pro needs the GitHub account that sponsors.
 
 Until you select "Sign in with GitHub" in the settings, Bases Transpose Table makes no network requests. Sign in uses the GitHub device flow. Bases Transpose Table sends its public client ID and the scope `read:user` to `https://github.com/login/device/code` and shows you a code. While you enter the code at https://github.com/login/device, it asks `https://github.com/login/oauth/access_token` every few seconds to check the sign-in status. The scope permits profile reads only. GitHub needs this access to show the sponsorship tier. It grants no repository scope and no write access.
 
