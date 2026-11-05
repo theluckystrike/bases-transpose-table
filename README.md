@@ -85,7 +85,7 @@ Try an existing number first. Change a cost from 5 to 12, press Enter, and open 
 
 After a minor or major update, this plugin opens one What's new tab in the background. The tab and settings card suggest other NoteMods plugins and Zovo Chat and link to notemods.com for feedback ([privacy](https://notemods.com/privacy/)). The tab sends no data. Turn the tab off in Settings.
 
-The plugin settings explain the view and contain the GitHub Sponsors controls. The row marks toggle belongs to each Transpose view. Named sets are stored with the view configuration in the base file, rather than in a separate online account. A view can hold up to 50 sets, each with up to five paths.
+The settings contain the GitHub Sponsors controls. The row marks toggle belongs to each Transpose view. Named sets are stored with the view configuration in the base file. A view can hold up to 50 sets, each with up to five paths.
 
 ## FAQ
 
@@ -104,6 +104,8 @@ Linux and Windows app runs, physical phones and tablets, third-party themes, scr
 ## Payment, account and network
 
 The core features are free. Pro features need a GitHub Sponsors sponsorship of theluckystrike: $5 a month or more, or $15 once. A total payment of $15 meets the payment requirement for Pro without further payment. Sign-in and the checks below still apply. Your notes stay readable and editable with or without Pro.
+
+[One payment turns on Pro in every NoteMods plugin](https://notemods.com/pro/).
 
 GitHub handles the payment. Sponsor at https://github.com/sponsors/theluckystrike?frequency=one-time&metadata_source=bases-transpose-table. You need no account for the free features. Pro needs the GitHub account that sponsors.
 
