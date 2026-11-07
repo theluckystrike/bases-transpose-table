@@ -1,9 +1,9 @@
 {
 	"id": "bases-transpose-table",
 	"name": "Bases Transpose Table",
-	"version": "1.2.1",
+	"version": "1.2.2",
 	"minAppVersion": "1.13.4",
-	"description": "Compare notes in columns and edit simple properties in rows.",
+	"description": "Rotate a Bases table view so note names run across the top and properties down the left. Compare notes in columns, and edit simple properties in rows.",
 	"author": "Michael Lip",
 	"authorUrl": "https://github.com/theluckystrike",
 	"fundingUrl": "https://github.com/sponsors/theluckystrike",
